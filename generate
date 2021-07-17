@@ -1,0 +1,115 @@
+#!/bin/bash -x
+_validate_tools()
+{
+  if ! type base16-builder &> -; then
+    echo "missing required base16-builder command!"
+    exit 1
+  fi
+}
+
+_markdown()
+{
+  local schemes="db/schemes"
+  local templates="db/templates/markdown"
+  local output="output/markdown"
+
+  mkdir -p "$output"
+
+  base16-builder \
+    --scheme "$schemes/night-runner.yaml" \
+    --template "$templates/table.md.ejs" \
+    > "$output/table.md"
+}
+
+_vim()
+{
+  local schemes="db/schemes"
+  local templates="db/templates/vim"
+  local output="output/vim"
+
+  mkdir -p "$output/{autoload/airline/themes,autoload/lightline/colorscheme}"
+
+
+  base16-builder \
+    --scheme "$schemes/night-runner.yaml" \
+    --template "$templates/vim/dark.ejs" \
+    > "$output/NightRunner.vim"
+
+  base16-builder \
+    --scheme "$schemes/night-runner.yaml" \
+    --template "$templates/airline/dark.ejs" \
+    > "$output/autoload/airline/themes/NightRunner.vim"
+
+  base16-builder \
+    --scheme "$schemes/night-runner.yaml" \
+    --template "$templates/lightline/template.ejs" \
+    > "$output/autoload/lightline/colorscheme/NightRunner.vim"
+}
+
+_hightlightjs()
+{
+  local schemes="db/schemes"
+  local templates="db/templates/highlight.js"
+  local output="output/highlight.js"
+
+  mkdir -p "$output"
+
+  base16-builder \
+    --scheme "$schemes/night-runner.yaml" \
+    --template "$templates/dark.ejs" \
+    > "$output/nightrunner.css"
+
+  base16-builder \
+    --scheme "$schemes/night-runner.yaml" \
+    --template "$templates/light.ejs" \
+    > "$output/dayrunner.css"
+}
+
+# write to file
+_iterm2()
+{
+  local schemes="db/schemes"
+  local templates="db/templates/iterm2"
+  local output="output/iterm2/ColorPresets"
+
+  mkdir -p "$output"
+
+  base16-builder \
+    --scheme "$schemes/night-runner.yaml" \
+    --template "$templates/dark.ejs" \
+    > "$output/nightrunner.itermcolors"
+
+  base16-builder \
+    --scheme "$schemes/night-runner.yaml" \
+    --template "$templates/light.ejs" \
+    > "$output/dayrunner.itermcolors"
+}
+
+_xrdb()
+{
+  if ! type ruby &> -; then
+    echo "missing required ruby command!"
+    exit 1
+  fi
+
+  local src="output/iterm2/ColorPresets"
+  local output="output/xrdb"
+
+  mkdir -p "$output"
+
+  tools/iterm2xrdb \
+    "$src/nightrunner.itermcolors" \
+    > "$output/nightrunner.xrdb"
+
+  tools/iterm2xrdb \
+    "$src/dayrunner.itermcolors" \
+    > "$output/dayrunner.xrdb"
+}
+
+# execute it
+_validate_tools
+_markdown
+_vim
+_hightlightjs
+_iterm2
+_xrdb
