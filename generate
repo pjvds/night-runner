@@ -1,7 +1,7 @@
 #!/bin/bash -x
 _validate_tools()
 {
-  if ! type base16-builder &> -; then
+  if ! type base16-builder &> /dev/null; then
     echo "missing required base16-builder command!"
     exit 1
   fi
@@ -101,7 +101,7 @@ _iterm2()
 
 _xrdb()
 {
-  if ! type ruby &> -; then
+  if ! type ruby &> /dev/null; then
     echo "missing required ruby command!"
     exit 1
   fi
