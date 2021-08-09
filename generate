@@ -27,23 +27,37 @@ _vim()
   local templates="db/templates/vim"
   local output="output/vim"
 
-  mkdir -p "$output/{autoload/airline/themes,autoload/lightline/colorscheme}"
-
-
   base16-builder \
     --scheme "$schemes/night-runner.yaml" \
     --template "$templates/vim/dark.ejs" \
     > "$output/NightRunner.vim"
 
+  local airline_output="$output/autoload/airline/themes"
+  mkdir -p "$airline_output"
+
   base16-builder \
     --scheme "$schemes/night-runner.yaml" \
     --template "$templates/airline/dark.ejs" \
-    > "$output/autoload/airline/themes/NightRunner.vim"
+    > "$airline_output/NightRunner.vim"
+
+
+  local lightline_output="$output/autoload/lightline/colorscheme"
+  mkdir -p "$lightline_output"
 
   base16-builder \
     --scheme "$schemes/night-runner.yaml" \
     --template "$templates/lightline/template.ejs" \
-    > "$output/autoload/lightline/colorscheme/NightRunner.vim"
+    > "$lightline_output/NightRunner.vim"
+
+
+  local galaxyline_output="$output/lua/nightrunner"
+  mkdir -p "$galaxyline_output"
+
+  mkdir -p "$output/lua/nightrunner"
+  base16-builder \
+    --scheme "$schemes/night-runner.yaml" \
+    --template "$templates/galaxyline/dark.ejs" \
+    > "$galaxyline_output/NightRunner.lua"
 }
 
 _hightlightjs()
