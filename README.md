@@ -1,3 +1,5 @@
+![](https://github.com/pjvds/night-runner/raw/master/screenshot.png)
+
 |   | A       | B       | C       | D       |
 |---|---------|---------|---------|---------|
 | 0 | #272433 | #6F51E6 | #797A71 | #C1CF4A |
