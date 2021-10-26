@@ -7,6 +7,20 @@ _validate_tools()
   fi
 }
 
+_k9s()
+{
+  local schemes="db/schemes"
+  local templates="db/templates/k9s"
+  local output="output/k9s"
+
+  mkdir -p "$output"
+
+  base16-builder \
+    --scheme "$schemes/night-runner.yaml" \
+    --template "$templates/nightrunner.ejs" \
+    > "$output/nightrunner.yaml"
+}
+
 _markdown()
 {
   local schemes="db/schemes"
@@ -119,6 +133,8 @@ _xrdb()
     "$src/dayrunner.itermcolors" \
     > "$output/dayrunner.xrdb"
 }
+
+
 
 # execute it
 _validate_tools
